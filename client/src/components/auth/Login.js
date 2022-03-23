@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
-import classnames from "classnames";
+import React, { useState, useEffect } from "react";
+import { loginUser } from "../../actions/authActions";
+import { connect } from "react-redux";
+import { withRouter, useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Login = (props) => {
+  const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -14,13 +18,21 @@ const Login = (props) => {
       password: password,
     };
 
-    axios
-      .post("/api/users/login", User)
-      .then((res) => console.log(res.data))
-      .catch((err) => {
-        const newError = err.response.data;
-        setErrors(newError);
-      });
+    props.loginUser(User);
+  }
+
+  useEffect(() => {
+    if (props.errors) {
+      setErrors(props.errors);
+    }
+    if (props.auth.isAuthenticated) {
+      history.push("/dashboard");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+
+  if (props.auth.isAuthenticated) {
+    history.push("/dashboard");
   }
 
   return (
@@ -32,11 +44,13 @@ const Login = (props) => {
             <p className="lead text-center mb-3">
               Sign in to your DevConnector account
             </p>
-            <form noValidate onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
               <div className="form-group mb-3">
                 <input
                   type="email"
-                  className={`form-control form-control mb-2 ${errors.email ? 'is-invalid' :  ''}`}
+                  className={`form-control form-control mb-2 ${
+                    errors.email ? "is-invalid" : ""
+                  }`}
                   placeholder="Email Address"
                   name="email"
                   value={email}
@@ -50,7 +64,9 @@ const Login = (props) => {
               <div className="form-group mb-3">
                 <input
                   type="password"
-                  className={`form-control form-control mb-2 ${errors.password ? 'is-invalid' :  ''}`}
+                  className={`form-control form-control mb-2 ${
+                    errors.password ? "is-invalid" : ""
+                  }`}
                   placeholder="Password"
                   name="password"
                   value={password}
@@ -74,4 +90,23 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+//Comes from root reducer
+const mapStateToProps = (state) => {
+  return {
+    errors: state.errors,
+    auth: state.auth,
+  };
+};
+
+// Reduced from auth files
+const mapDispatchToProps = {
+  loginUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

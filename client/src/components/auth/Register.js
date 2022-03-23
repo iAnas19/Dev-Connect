@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import axios from 'axios'
-import classnames from "classnames";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
+import { withRouter, useHistory } from "react-router-dom";
 
 const Register = (props) => {
   const [name, setName] = useState("");
@@ -8,6 +10,8 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [errors, setErrors] = useState({});
+
+  const history = useHistory();
 
   function onSubmit(e) {
     e.preventDefault();
@@ -18,14 +22,18 @@ const Register = (props) => {
       password2: password2,
     };
 
-    axios
-      .post("/api/users/register", newUser)
-      .then((res) => console.log(res.data))
-      .catch((err) => {
-        const newError = err.response.data;
-        setErrors(newError);
-      });
+    props.registerUser(newUser, props.history);
   }
+
+  useEffect(() => {
+    if (props.auth.isAuthenticated) {
+      history.push("/dashboard");
+    }
+
+    if (props.errors) {
+      setErrors(props.errors);
+    }
+  }, [props.errors]);
 
   return (
     <div className="register">
@@ -40,7 +48,9 @@ const Register = (props) => {
               <div className="form-group mb-3">
                 <input
                   type="text"
-                  className={`form-control form-control mb-2 ${errors.name ? 'is-invalid' :  ''}`}
+                  className={`form-control form-control mb-2 ${
+                    errors.name ? "is-invalid" : ""
+                  }`}
                   placeholder="Name"
                   name="name"
                   value={name}
@@ -54,7 +64,9 @@ const Register = (props) => {
               <div className="form-group mb-3">
                 <input
                   type="email"
-                  className={`form-control form-control mb-2 ${errors.email ? 'is-invalid' :  ''}`}
+                  className={`form-control form-control mb-2 ${
+                    errors.email ? "is-invalid" : ""
+                  }`}
                   placeholder="Email Address"
                   name="email"
                   value={email}
@@ -72,7 +84,9 @@ const Register = (props) => {
               <div className="form-group mb-3">
                 <input
                   type="password"
-                  className={`form-control form-control mb-2 ${errors.password ? 'is-invalid' :  ''}`}
+                  className={`form-control form-control mb-2 ${
+                    errors.password ? "is-invalid" : ""
+                  }`}
                   placeholder="Password"
                   name="password"
                   value={password}
@@ -86,7 +100,9 @@ const Register = (props) => {
               <div className="form-group mb-3">
                 <input
                   type="password"
-                  className={`form-control form-control mb-2 ${errors.password2 ? 'is-invalid' :  ''}`}
+                  className={`form-control form-control mb-2 ${
+                    errors.password2 ? "is-invalid" : ""
+                  }`}
                   placeholder="Confirm Password"
                   name="password2"
                   value={password2}
@@ -111,4 +127,15 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
