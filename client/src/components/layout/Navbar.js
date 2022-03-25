@@ -41,7 +41,7 @@ const Navbar = (props) => {
   const guestLinks = (
     <ul className="navbar-nav ms-auto">
       <li className="nav-item">
-        <Link to="/signup" className="nav-link">
+        <Link to="/register" className="nav-link">
           Sign Up
         </Link>
       </li>

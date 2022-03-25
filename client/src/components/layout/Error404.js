@@ -1,16 +1,7 @@
-import React, { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Error404 = (props) => {
-  const history = useHistory();
-
-  useEffect(() => {
-    if (props.auth.isAuthenticated) {
-      history.push("/dashboard");
-    }
-  });
   return (
     <div className="container">
       <h1>404 - Not Found!</h1>
@@ -23,18 +14,4 @@ const Error404 = (props) => {
   );
 };
 
-Error404.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-};
-
-//Comes from root reducer
-const mapStateToProps = (state) => {
-  return {
-    errors: state.errors,
-    auth: state.auth,
-  };
-};
-
-export default connect(mapStateToProps, null)(Error404);
+export default Error404;

@@ -3,6 +3,7 @@ import { loginUser } from "../../actions/authActions";
 import { connect } from "react-redux";
 import { withRouter, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+import TextFieldGroup from "./../common/TextFieldGroup";
 
 const Login = (props) => {
   const history = useHistory();
@@ -25,6 +26,14 @@ const Login = (props) => {
     if (props.errors) {
       setErrors(props.errors);
     }
+
+    return () => {
+      setErrors({});
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.errors]);
+
+  useEffect(() => {
     if (props.auth.isAuthenticated) {
       history.push("/dashboard");
     }
@@ -45,37 +54,23 @@ const Login = (props) => {
               Sign in to your DevConnector account
             </p>
             <form onSubmit={onSubmit}>
-              <div className="form-group mb-3">
-                <input
-                  type="email"
-                  className={`form-control form-control mb-2 ${
-                    errors.email ? "is-invalid" : ""
-                  }`}
-                  placeholder="Email Address"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {errors.email && (
-                  <div className="invalid-feedback">{errors.email}</div>
-                )}
-              </div>
+              <TextFieldGroup
+                name="email"
+                placeholder="Email Address"
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                error={errors.email}
+              />
 
-              <div className="form-group mb-3">
-                <input
-                  type="password"
-                  className={`form-control form-control mb-2 ${
-                    errors.password ? "is-invalid" : ""
-                  }`}
-                  placeholder="Password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {errors.password && (
-                  <div className="invalid-feedback">{errors.password}</div>
-                )}
-              </div>
+              <TextFieldGroup
+                name="password"
+                placeholder="Password"
+                value={password}
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                error={errors.password}
+              />
               <button
                 type="submit"
                 className="btn btn-primary btn-lg btn-block mt-4"

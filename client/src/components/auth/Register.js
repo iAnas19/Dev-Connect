@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { withRouter, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
-import { withRouter, useHistory } from "react-router-dom";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 const Register = (props) => {
   const [name, setName] = useState("");
@@ -26,14 +27,22 @@ const Register = (props) => {
   }
 
   useEffect(() => {
-    if (props.auth.isAuthenticated) {
-      history.push("/dashboard");
-    }
-
     if (props.errors) {
       setErrors(props.errors);
     }
+
+    return () => {
+      setErrors({});
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.errors]);
+
+  useEffect(() => {
+    if (props.auth.isAuthenticated) {
+      history.push("/dashboard");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
 
   return (
     <div className="register">
@@ -45,74 +54,43 @@ const Register = (props) => {
               Create your DevConnector account
             </p>
             <form noValidate onSubmit={onSubmit}>
-              <div className="form-group mb-3">
-                <input
-                  type="text"
-                  className={`form-control form-control mb-2 ${
-                    errors.name ? "is-invalid" : ""
-                  }`}
-                  placeholder="Name"
-                  name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                {errors.name && (
-                  <div className="invalid-feedback">{errors.name}</div>
-                )}
-              </div>
+              <TextFieldGroup
+                name="name"
+                placeholder="Name"
+                value={name}
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                error={errors.name}
+              />
 
-              <div className="form-group mb-3">
-                <input
-                  type="email"
-                  className={`form-control form-control mb-2 ${
-                    errors.email ? "is-invalid" : ""
-                  }`}
-                  placeholder="Email Address"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {errors.email && (
-                  <div className="invalid-feedback">{errors.email}</div>
-                )}
-                <small className="form-text text-muted">
-                  This site uses Gravatar so if you want a profile image, use a
-                  Gravatar email
-                </small>
-              </div>
+              <TextFieldGroup
+                name="email"
+                placeholder="Email Address"
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                error={errors.email}
+                info="This site uses Gravatar so if you want a profile image, use a
+                Gravatar email"
+              />
 
-              <div className="form-group mb-3">
-                <input
-                  type="password"
-                  className={`form-control form-control mb-2 ${
-                    errors.password ? "is-invalid" : ""
-                  }`}
-                  placeholder="Password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {errors.password && (
-                  <div className="invalid-feedback">{errors.password}</div>
-                )}
-              </div>
+              <TextFieldGroup
+                name="password"
+                placeholder="Password"
+                value={password}
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                error={errors.password}
+              />
 
-              <div className="form-group mb-3">
-                <input
-                  type="password"
-                  className={`form-control form-control mb-2 ${
-                    errors.password2 ? "is-invalid" : ""
-                  }`}
-                  placeholder="Confirm Password"
-                  name="password2"
-                  value={password2}
-                  onChange={(e) => setPassword2(e.target.value)}
-                />
-                {errors.password2 && (
-                  <div className="invalid-feedback">{errors.password2}</div>
-                )}
-              </div>
-
+              <TextFieldGroup
+                name="passwor2d"
+                placeholder="Confirm Password"
+                value={password2}
+                type="password"
+                onChange={(e) => setPassword2(e.target.value)}
+                error={errors.password2}
+              />
               <button
                 type="submit"
                 className="btn btn-primary btn-lg btn-block mt-4"
@@ -133,9 +111,20 @@ Register.propTypes = {
   errors: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  errors: state.errors,
-});
+//Comes from root reducer
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+    errors: state.errors,
+  };
+};
 
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+// Reduced from auth files
+const mapDispatchToProps = {
+  registerUser,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Register));
