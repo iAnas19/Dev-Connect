@@ -39,7 +39,7 @@ const Landing = (props) => {
 };
 
 Landing.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+  loginUser: PropTypes.func,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };

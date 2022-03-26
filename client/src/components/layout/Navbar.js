@@ -2,46 +2,45 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logoutUser } from "../../actions/authActions";
+import { logoutCurrentUser } from "./../../redux/actions/authAction";
+import { clearCurrentProfile } from "./../../redux/actions/profileAction";
+
 const Navbar = (props) => {
   const history = useHistory();
   const { isAuthenticated, user } = props.auth;
 
   function onLogout(e) {
     e.preventDefault();
-    props.logoutUser();
+    props.logoutCurrentUser();
+    props.clearCurrentProfile();
     history.push("/");
   }
 
   const authLinks = (
     <ul className="navbar-nav ms-auto">
+      {" "}
       <li className="nav-item">
+        {" "}
         <a href="/#" onClick={onLogout} className="nav-link">
+          {" "}
           <img
             src={user.avatar}
             alt={user.name}
             style={{ width: "25px", marginRight: "15px" }}
             className="rounded-circle"
             title="You must have Gravatar connected to your email to display your avatar."
-          />
-          Logout
-        </a>
-      </li>
-      {/* <li className="nav-item">
-        <button
-          className="btn btn-outline-danger btn btn-block"
-          onClick={onLogout}
-        >
-          Logout
-        </button>
-      </li> */}
+          />{" "}
+          Logout{" "}
+        </a>{" "}
+      </li>{" "}
+      {/* <li className="nav-item"> <button className="btn btn-outline-danger btn btn-block" onClick={onLogout} > Logout </button> </li> */}{" "}
     </ul>
   );
 
   const guestLinks = (
     <ul className="navbar-nav ms-auto">
       <li className="nav-item">
-        <Link to="/register" className="nav-link">
+        <Link to="/signup" className="nav-link">
           Sign Up
         </Link>
       </li>
@@ -85,7 +84,7 @@ const Navbar = (props) => {
 };
 
 Navbar.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
+  logoutCurrentUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
@@ -98,7 +97,8 @@ const mapStateToProps = (state) => {
 
 // Reduced from auth files
 const mapDispatchToProps = {
-  logoutUser,
+  logoutCurrentUser,
+  clearCurrentProfile,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

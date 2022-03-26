@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { loginUser } from "../../actions/authActions";
+import { loginUser } from "../../redux/actions/authAction";
 import { connect } from "react-redux";
 import { withRouter, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -94,7 +94,7 @@ Login.propTypes = {
 //Comes from root reducer
 const mapStateToProps = (state) => {
   return {
-    errors: state.errors,
+    errors: state.errors.loginErrors,
     auth: state.auth,
   };
 };

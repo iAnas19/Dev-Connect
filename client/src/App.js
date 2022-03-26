@@ -1,19 +1,24 @@
-import "./App.css";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import jwt_decode from "jwt-decode";
-import setAuthToken from "./utils/setAuthToken";
-import { logoutUser, setCurrentUser } from "./actions/authActions";
-
+import React from "react";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
-import Dashboard from "./components/layout/Dashboard";
 import Error404 from "./components/layout/Error404";
+import Login from "./components/auth/Login.js";
+import Register from "./components/auth/Register.js";
+import Dashboard from "./components/dashboard/Dashboard.js";
+import store from "./redux/store";
+import jwt_decode from "jwt-decode";
+import setAuthToken from "./utils/setAuthToken.js";
+import {
+  logoutCurrentUser,
+  setCurrentUser,
+} from "./redux/actions/authAction.js";
+import { clearCurrentProfile } from "./redux/actions/profileAction";
+
+import "./App.css";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -29,8 +34,9 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     //Logout user
-    store.dispatch(logoutUser);
-    //TODO: Clear current profile
+    store.dispatch(logoutCurrentUser());
+    //Clear current profile
+    store.dispatch(clearCurrentProfile());
     //Redirect to login
     window.location.href("/login");
   }
@@ -39,7 +45,7 @@ if (localStorage.jwtToken) {
 const App = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <Router>
         <Navbar />
         <Switch>
           <Route exact path="/" component={Landing} />
@@ -49,7 +55,7 @@ const App = () => {
           <Route path="*" component={Error404} />
         </Switch>
         <Footer />
-      </BrowserRouter>
+      </Router>
     </Provider>
   );
 };

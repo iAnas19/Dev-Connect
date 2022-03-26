@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withRouter, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
+import { registerUser } from "../../redux/actions/authAction";
 import TextFieldGroup from "../common/TextFieldGroup";
 
 const Register = (props) => {
@@ -115,7 +115,7 @@ Register.propTypes = {
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
-    errors: state.errors,
+    errors: state.errors.signupErrors,
   };
 };
 
