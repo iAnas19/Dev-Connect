@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "./../../redux/actions/profileAction";
+import {
+  getCurrentProfile,
+  deleteAccount,
+} from "../../redux/actions/profileAction";
 import Loading from "../common/Loading";
 import { Link } from "react-router-dom";
+import ProfileActions from "./ProfileActions";
 
 const Dasboard = (props) => {
   useEffect(() => {
@@ -13,6 +17,10 @@ const Dasboard = (props) => {
   const { user } = props.auth;
   const { profile, loading } = props.profile;
 
+  function onDeleteClick(e) {
+    props.deleteAccount();
+  }
+
   let dashboardContent;
 
   if (profile === null || (loading && props.auth.isAuthenticated)) {
@@ -20,7 +28,19 @@ const Dasboard = (props) => {
   } else {
     if (Object.keys(profile).length > 0) {
       //Check if user has a profile
-      dashboardContent = <h4>Display Profile</h4>;
+      dashboardContent = (
+        <div>
+          <p className="lead text-muted">
+            Weclome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+          </p>
+          <ProfileActions />
+          <div style={{ marginBottom: "60px" }}>
+            <button onClick={onDeleteClick} className="btn btn-danger">
+              Delete My Account
+            </button>
+          </div>
+        </div>
+      );
     } else {
       //User is logged in but has no profile
       dashboardContent = (
@@ -53,6 +73,7 @@ Dasboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
 };
 
 //Comes from root reducer
@@ -65,6 +86,7 @@ const mapStateToProps = (state) => ({
 // Reduced from action files
 const mapDispatchToProps = {
   getCurrentProfile,
+  deleteAccount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dasboard);

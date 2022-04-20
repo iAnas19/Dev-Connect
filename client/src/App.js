@@ -17,6 +17,8 @@ import {
   setCurrentUser,
 } from "./redux/actions/authAction.js";
 import { clearCurrentProfile } from "./redux/actions/profileAction";
+import CreateProfile from "./components/create-profile/CreateProfile";
+import EditProfile from "./components/edit-profile/EditProfile";
 
 import "./App.css";
 
@@ -52,6 +54,8 @@ const App = () => {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/create-profile" component={CreateProfile} />
+          <Route exact path="/edit-profile" component={EditProfile} />
           <Route path="*" component={Error404} />
         </Switch>
         <Footer />

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutCurrentUser } from "./../../redux/actions/authAction";
 import { clearCurrentProfile } from "./../../redux/actions/profileAction";
+import Dasboard from "./../dashboard/Dashboard";
 
 const Navbar = (props) => {
   const history = useHistory();
@@ -18,7 +19,11 @@ const Navbar = (props) => {
 
   const authLinks = (
     <ul className="navbar-nav ms-auto">
-      {" "}
+      <li className="nav-item">
+        <Link to="/dashboard" className="nav-link me-3">
+          Home
+        </Link>
+      </li>
       <li className="nav-item">
         {" "}
         <a href="/#" onClick={onLogout} className="nav-link">
