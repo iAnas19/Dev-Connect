@@ -19,6 +19,9 @@ import {
 import { clearCurrentProfile } from "./redux/actions/profileAction";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
+import AddEducation from "./components/add-credentials/AddEducation";
+import AddExperience from "./components/add-credentials/AddExperience";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 import "./App.css";
 
@@ -53,9 +56,15 @@ const App = () => {
           <Route exact path="/" component={Landing} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/create-profile" component={CreateProfile} />
-          <Route exact path="/edit-profile" component={EditProfile} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute
+            exact
+            path="/create-profile"
+            component={CreateProfile}
+          />
+          <PrivateRoute exact path="/edit-profile" component={EditProfile} />
+          <PrivateRoute path="/add-experience" component={AddExperience} />
+          <PrivateRoute path="/add-education" component={AddEducation} />
           <Route path="*" component={Error404} />
         </Switch>
         <Footer />

@@ -3,6 +3,7 @@ import {
   GET_SIGNUP_ERRORS,
   GET_PROFILE_ERRORS,
   GET_DELETE_ERRORS,
+  GET_DASHBOARD_ERRORS,
 } from "./../actions/types";
 
 const initialState = {
@@ -12,7 +13,7 @@ const initialState = {
   deleteErrors: {},
 };
 
-export default function (state = initialState, action) {
+const errorReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_PROFILE_ERRORS:
       return {
@@ -21,6 +22,7 @@ export default function (state = initialState, action) {
         loginErrors: {},
         deleteErrors: {},
         profileErrors: action.payload,
+        dashboardErrors: {},
       };
     case GET_DELETE_ERRORS:
       return {
@@ -29,6 +31,7 @@ export default function (state = initialState, action) {
         loginErrors: {},
         profileErrors: {},
         deleteErrors: action.payload,
+        dashboardErrors: {},
       };
     case GET_LOGIN_ERRORS:
       return {
@@ -37,6 +40,7 @@ export default function (state = initialState, action) {
         signupErrors: {},
         deleteErrors: {},
         loginErrors: action.payload,
+        dashboardErrors: {},
       };
     case GET_SIGNUP_ERRORS:
       return {
@@ -45,8 +49,20 @@ export default function (state = initialState, action) {
         loginErrors: {},
         deleteErrors: {},
         signupErrors: action.payload,
+        dashboardErrors: {},
+      };
+    case GET_DASHBOARD_ERRORS:
+      return {
+        ...state,
+        profileErrors: {},
+        loginErrors: {},
+        deleteErrors: {},
+        signupErrors: {},
+        dashboardErrors: action.payload,
       };
     default:
       return state;
   }
-}
+};
+
+export default errorReducer;

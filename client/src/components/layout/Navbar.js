@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutCurrentUser } from "./../../redux/actions/authAction";
 import { clearCurrentProfile } from "./../../redux/actions/profileAction";
-import Dasboard from "./../dashboard/Dashboard";
+import Dashboard from "./../dashboard/Dashboard";
 
 const Navbar = (props) => {
   const history = useHistory();
