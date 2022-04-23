@@ -6,9 +6,9 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Error404 from "./components/layout/Error404";
-import Login from "./components/auth/Login.js";
+import Login from "./components/auth/Login";
 import Register from "./components/auth/Register.js";
-import Dashboard from "./components/dashboard/Dashboard.js";
+import Dashboard from "./components/dashboard/Dashboard";
 import store from "./redux/store";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken.js";
@@ -57,12 +57,8 @@ const App = () => {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <PrivateRoute
-            exact
-            path="/create-profile"
-            component={CreateProfile}
-          />
-          <PrivateRoute exact path="/edit-profile" component={EditProfile} />
+          <PrivateRoute path="/create-profile" component={CreateProfile} />
+          <PrivateRoute path="/edit-profile" component={EditProfile} />
           <PrivateRoute path="/add-experience" component={AddExperience} />
           <PrivateRoute path="/add-education" component={AddEducation} />
           <Route path="*" component={Error404} />

@@ -7,11 +7,11 @@ import {
   getCurrentProfile,
 } from "../../redux/actions/profileAction";
 import { withRouter } from "react-router-dom";
-import InputGroup from "./../common/InputGroup";
+import InputGroup from "../common/InputGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
-import SelectListGroup from "./../common/SelectListGroup";
-import TextAreaFieldGroup from "./../common/TextAreaFieldGroup";
-import isEmpty from "./../../validation/is-empty";
+import SelectListGroup from "../common/SelectListGroup";
+import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
+import isEmpty from "../../validation/is-empty";
 
 const EditProfile = (props) => {
   const [state, setState] = useState({
@@ -113,6 +113,7 @@ const EditProfile = (props) => {
 
       // Set component fields state
       setState({
+        ...state,
         handle: profile.handle,
         company: profile.company,
         website: profile.website,
@@ -125,10 +126,11 @@ const EditProfile = (props) => {
         facebook: profile.facebook,
         linkedin: profile.linkedin,
         youtube: profile.youtube,
+        instagram: profile.instagram,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.errors]);
+  }, [props.errors, props.profile.profile]);
 
   let socialInputs;
 
@@ -193,7 +195,7 @@ const EditProfile = (props) => {
             </Link>
             <h1 className="display-4 text-center">Edit Profile</h1>
             <small className="d-block pb-3">* = required field</small>
-            <form noValidate onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
               <TextFieldGroup
                 name="handle"
                 placeholder="* Profile handle"
@@ -277,6 +279,7 @@ const EditProfile = (props) => {
                   type="button"
                   onClick={() => {
                     setState((prevState) => ({
+                      ...state,
                       displaySocialInputs: !prevState.displaySocialInputs,
                     }));
                   }}

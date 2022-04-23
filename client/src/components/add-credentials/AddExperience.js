@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import TextAreaFieldGroup from "./../common/TextAreaFieldGroup";
-import TextFieldGroup from "./../common/TextFieldGroup";
+import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
+import TextFieldGroup from "../common/TextFieldGroup";
 import PropTypes from "prop-types";
 import { addExperience } from "../../redux/actions/profileAction";
 
@@ -48,6 +48,7 @@ const AddExperience = (props) => {
 
   function onCheck(e) {
     setState({
+      ...state,
       disabled: !state.disabled,
       current: !state.current,
     });
@@ -128,7 +129,7 @@ const AddExperience = (props) => {
                 value={state.description}
                 onChange={onChange}
                 error={errors.description}
-                info="Tell us about the the position"
+                info="Tell us about the position"
               />
               <input
                 type="submit"

@@ -10,11 +10,11 @@ const AddEducation = (props) => {
   const [state, setState] = useState({
     school: "",
     degree: "",
-    fieldofstudy: "",
+    fieldofStudy: "",
     to: "",
     from: "",
     current: false,
-    description: "",
+    description: "I am Student of life...",
     disabled: false,
   });
 
@@ -32,7 +32,7 @@ const AddEducation = (props) => {
     const eduData = {
       school: state.school,
       degree: state.degree,
-      fieldofstudy: state.fieldofstudy,
+      fieldofStudy: state.fieldofStudy,
       from: state.from,
       to: state.to,
       current: state.current,
@@ -43,11 +43,15 @@ const AddEducation = (props) => {
   }
 
   function onChange(e) {
-    setState({ ...state, [e.target.name]: e.target.value });
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
   }
 
   function onCheck(e) {
     setState({
+      ...state,
       disabled: !state.disabled,
       current: !state.current,
     });
@@ -83,10 +87,10 @@ const AddEducation = (props) => {
               />
               <TextFieldGroup
                 placeholder="* Field of Study"
-                name="fieldofstudy"
-                value={state.fieldofstudy}
+                name="fieldofStudy"
+                value={state.fieldofStudy}
                 onChange={onChange}
-                error={errors.fieldofstudy}
+                error={errors.fieldofStudy}
               />
               <h6>From Date</h6>
               <TextFieldGroup
@@ -116,7 +120,7 @@ const AddEducation = (props) => {
                   id="current"
                 />
                 <label htmlFor="current" className="form-check-label">
-                  Current Job
+                  Ongoing
                 </label>
               </div>
               <TextAreaFieldGroup
@@ -141,9 +145,9 @@ const AddEducation = (props) => {
 };
 
 AddEducation.propTypes = {
+  addEducation: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  addEducation: PropTypes.func.isRequired,
 };
 
 //Comes from root reducer

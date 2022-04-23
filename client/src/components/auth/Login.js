@@ -3,7 +3,7 @@ import { loginUser } from "../../redux/actions/authAction";
 import { connect } from "react-redux";
 import { withRouter, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import TextFieldGroup from "./../common/TextFieldGroup";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 const Login = (props) => {
   const history = useHistory();

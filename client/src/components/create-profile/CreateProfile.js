@@ -4,10 +4,10 @@ import { PropTypes } from "prop-types";
 import { Link } from "react-router-dom";
 import { createProfile } from "../../redux/actions/profileAction";
 import { withRouter } from "react-router-dom";
-import InputGroup from "./../common/InputGroup";
+import InputGroup from "../common/InputGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
-import SelectListGroup from "./../common/SelectListGroup";
-import TextAreaFieldGroup from "./../common/TextAreaFieldGroup";
+import SelectListGroup from "../common/SelectListGroup";
+import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 
 const CreateProfile = (props) => {
   const [state, setState] = useState({
@@ -235,7 +235,7 @@ const CreateProfile = (props) => {
               <input
                 type="submit"
                 value="Submit"
-                className="btn btn-info btn-block mt-4"
+                className="btn btn-primary btn-block mt-4"
               />
             </form>
           </div>

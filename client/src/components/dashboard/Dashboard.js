@@ -8,6 +8,8 @@ import {
 import Loading from "../common/Loading";
 import { Link } from "react-router-dom";
 import ProfileActions from "./ProfileActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 const Dasboard = (props) => {
   useEffect(() => {
@@ -31,9 +33,17 @@ const Dasboard = (props) => {
       dashboardContent = (
         <div>
           <p className="lead text-muted">
-            Weclome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+            Weclome{" "}
+            <Link
+              to={`/profile/${profile.handle}`}
+              style={{ textDecorationLine: "none" }}
+            >
+              {user.name}
+            </Link>
           </p>
           <ProfileActions />
+          <Experience experience={profile.experience} />
+          <Education education={profile.education} />
           <div style={{ marginBottom: "60px" }}>
             <button onClick={onDeleteClick} className="btn btn-danger">
               Delete My Account

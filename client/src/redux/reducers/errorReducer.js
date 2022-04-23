@@ -11,6 +11,7 @@ const initialState = {
   loginErrors: {},
   signupErrors: {},
   deleteErrors: {},
+  dashboardErrors: {},
 };
 
 const errorReducer = (state = initialState, action) => {
