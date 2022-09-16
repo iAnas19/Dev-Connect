@@ -1,55 +1,45 @@
-import React, { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
+import React from "react";
+import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-const Landing = (props) => {
-  const history = useHistory();
+const Landing = ({ isAuthenticated }) => {
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
 
-  useEffect(() => {
-    if (props.auth.isAuthenticated) {
-      history.push("/dashboard");
-    }
-  });
   return (
-    <div className="landing">
-      <div className="dark-overlay landing-inner text-light">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12 text-center">
-              <h1 className="display-3 mb-4">Developer Connector</h1>
-              <p className="lead">
-                {" "}
-                Create a developer profile/portfolio, share posts and get help
-                from other developers
-              </p>
-              <hr />
-              <Link to="/signup" className="btn btn-lg btn-info me-2">
-                Sign Up
-              </Link>
-              <Link to="/login" className="btn btn-lg btn-light">
-                Login
-              </Link>
-            </div>
+    <section className="landing">
+      <div className="dark-overlay">
+        <div className="landing-inner">
+          <h1 className="x-large">
+            <i className="fas fa-code" />
+            DevConnect
+          </h1>
+          <p className="lead">
+            Create a developer profile/portfolio, share posts and get help from
+            other developers
+          </p>
+          <div className="buttons">
+            <Link to="/register" className="btn btn-primary">
+              Sign Up
+            </Link>
+            <Link to="/login" className="btn btn-light">
+              Login
+            </Link>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 Landing.propTypes = {
-  loginUser: PropTypes.func,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object,
+  isAuthenticated: PropTypes.bool
 };
 
-//Comes from root reducer
-const mapStateToProps = (state) => {
-  return {
-    errors: state.errors,
-    auth: state.auth,
-  };
-};
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
 
-export default connect(mapStateToProps, null)(Landing);
+export default connect(mapStateToProps)(Landing);

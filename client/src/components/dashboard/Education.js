@@ -1,8 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import Moment from "react-moment";
-import { deleteEducation } from "../../redux/actions/profileAction";
+import { connect } from "react-redux";
+import { deleteEducation } from "../../actions/profile";
+import formatDate from "../../utils/formatDate";
 
 const Education = ({ education, deleteEducation }) => {
   const educations = education.map((edu) => (
@@ -10,12 +10,7 @@ const Education = ({ education, deleteEducation }) => {
       <td>{edu.school}</td>
       <td className="hide-sm">{edu.degree}</td>
       <td>
-        <Moment format="YYYY/MM/DD">{edu.from}</Moment> -{" "}
-        {edu.to === null ? (
-          " Now"
-        ) : (
-          <Moment format="YYYY/MM/DD">{edu.to}</Moment>
-        )}
+        {formatDate(edu.from)} - {edu.to ? formatDate(edu.to) : "Now"}
       </td>
       <td>
         <button
@@ -29,7 +24,7 @@ const Education = ({ education, deleteEducation }) => {
   ));
 
   return (
-    <>
+    <Fragment>
       <h2 className="my-2">Education Credentials</h2>
       <table className="table">
         <thead>
@@ -42,16 +37,13 @@ const Education = ({ education, deleteEducation }) => {
         </thead>
         <tbody>{educations}</tbody>
       </table>
-    </>
+    </Fragment>
   );
 };
 
-Education.propTypes = { deleteEducation: PropTypes.func.isRequired };
+Education.propTypes = {
+  education: PropTypes.array.isRequired,
+  deleteEducation: PropTypes.func.isRequired
+};
 
-//Comes from root reducer
-// const mapStateToProps = (state) => ({});
-
-// Reduced from action files
-const mapDispatchToProps = { deleteEducation };
-
-export default connect(null, mapDispatchToProps)(Education);
+export default connect(null, { deleteEducation })(Education);
